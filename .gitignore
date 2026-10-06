@@ -1,0 +1,4 @@
+# Original phone photos and screenshots (web-sized copies live in assets/img)
+/IMG_*
+.claude/
+__pycache__/

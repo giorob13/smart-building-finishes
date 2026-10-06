@@ -1,0 +1,70 @@
+    <section class="page-head">
+      <div class="container">
+        <p class="eyebrow">Contact</p>
+        <h1>Request a quote or site survey</h1>
+        <p class="lead">Tell us a little about the property and what you need. We will reply to arrange a visit or send a proposal.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container contact-grid">
+        <form class="form" id="quote-form" data-endpoint="{{form_endpoint}}" data-email="{{email}}" novalidate>
+          <div class="field">
+            <label for="name">Full name</label>
+            <input id="name" name="name" type="text" autocomplete="name" required>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label for="email">Email</label>
+              <input id="email" name="email" type="email" autocomplete="email" required>
+            </div>
+            <div class="field">
+              <label for="phone">Phone</label>
+              <input id="phone" name="phone" type="tel" autocomplete="tel">
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label for="service">Service</label>
+              <select id="service" name="service">
+                <option>Building automation</option>
+                <option>CCTV surveillance</option>
+                <option>Access control</option>
+                <option>More than one</option>
+                <option>Not sure yet</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="property">Property type</label>
+              <select id="property" name="property">
+                <option>Commercial</option>
+                <option>Residential</option>
+                <option>Mixed use</option>
+                <option>Other</option>
+              </select>
+            </div>
+          </div>
+          <div class="field">
+            <label for="message">Project details</label>
+            <textarea id="message" name="message" rows="6" required placeholder="Location, size of the property, and what you would like the system to do."></textarea>
+          </div>
+          <button class="btn btn-accent" type="submit">Send enquiry</button>
+          <p class="form-status" role="status" aria-live="polite"></p>
+        </form>
+
+        <aside class="contact-card">
+          <h2>Contact details</h2>
+          <dl>
+            <dt>Phone</dt>
+            <dd><a href="{{phone_href}}">{{phone}}</a></dd>
+            <dt>Email</dt>
+            <dd><a href="mailto:{{email}}">{{email}}</a></dd>
+            {{address_row}}
+            <dt>Hours</dt>
+            <dd>{{hours}}</dd>
+            <dt>Service area</dt>
+            <dd>The entire island</dd>
+          </dl>
+        </aside>
+      </div>
+    </section>
