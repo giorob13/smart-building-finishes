@@ -28,7 +28,7 @@ SITE = {
     "form_endpoint": "",
     # WhatsApp number, digits only with country code (e.g. 18765068383).
     # Leave empty to hide the WhatsApp button.
-    "whatsapp": "",
+    "whatsapp": "18765068383",
     # Google tag ID from Google Ads. Leave empty to leave the tag off the site.
     "google_tag": "AW-18497094392",
 }
@@ -83,7 +83,7 @@ PAGES = [
         "source": "cctv.html",
         "nav": None,
         "title": "CCTV Installation Jamaica | Smart Building Finishes",
-        "description": "Security camera sales, installation, repairs and maintenance for homes and businesses across Jamaica. Free site survey and warranty on every install.",
+        "description": "Security camera sales, installation, repairs and maintenance for homes and businesses across Jamaica. Free site visit in Kingston and urban St. Andrew and warranty on every install.",
     },
     {
         "file": "contact.html",
