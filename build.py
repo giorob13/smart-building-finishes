@@ -35,10 +35,11 @@ SITE = {
 
 # Google Ads conversion labels (the part after the "/" in a conversion
 # action's send_to value). A lead type is only reported once its label is set.
+# All three currently report to the one "Website lead" conversion action.
 CONVERSIONS = {
-    "call": "",
-    "whatsapp": "",
-    "form": "",
+    "call": "YR_9CMHev5QdEPiFjfRE",
+    "whatsapp": "YR_9CMHev5QdEPiFjfRE",
+    "form": "YR_9CMHev5QdEPiFjfRE",
 }
 
 PLACEHOLDERS = {
