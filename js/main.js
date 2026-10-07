@@ -25,6 +25,19 @@ if ("IntersectionObserver" in window) {
   });
 }
 
+// Report a lead to Google Ads. Does nothing until the Google tag and the
+// matching conversion label are set in build.py.
+const trackLead = (kind) => {
+  const sendTo = (window.conversionLabels || {})[kind];
+  if (sendTo && typeof gtag === "function") gtag("event", "conversion", { send_to: sendTo });
+};
+document.querySelectorAll('a[href^="tel:"]').forEach((link) => {
+  link.addEventListener("click", () => trackLead("call"));
+});
+document.querySelectorAll('a[href^="https://wa.me/"]').forEach((link) => {
+  link.addEventListener("click", () => trackLead("whatsapp"));
+});
+
 // Quote form: posts to the form service when one is configured in build.py,
 // otherwise opens the visitor's email app with the enquiry filled in.
 const form = document.getElementById("quote-form");
@@ -56,6 +69,7 @@ if (form) {
         const response = await fetch(endpoint, { method: "POST", body: data, headers: { Accept: "application/json" } });
         if (!response.ok) throw new Error(response.statusText);
         form.reset();
+        trackLead("form");
         setStatus("Thank you. Your enquiry has been sent and we will be in touch shortly.", "ok");
       } catch (error) {
         setStatus("Sorry, the enquiry could not be sent. Please call or email us instead.", "error");
@@ -75,6 +89,7 @@ if (form) {
     window.location.href = "mailto:" + form.dataset.email +
       "?subject=" + encodeURIComponent("Quote request: " + data.get("service")) +
       "&body=" + encodeURIComponent(body);
+    trackLead("form");
     setStatus("Your email app should now open with the enquiry ready to send.", "ok");
   });
 }

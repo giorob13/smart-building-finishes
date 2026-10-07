@@ -5,6 +5,7 @@ then run:  python build.py
 The finished .html files are written next to this script.
 """
 
+import json
 from datetime import date
 from html import escape
 from pathlib import Path
@@ -25,6 +26,19 @@ SITE = {
     # Paste a form service URL (e.g. Formspree) to receive enquiries without
     # opening the visitor's email app. Leave empty to use email instead.
     "form_endpoint": "",
+    # WhatsApp number, digits only with country code (e.g. 18765068383).
+    # Leave empty to hide the WhatsApp button.
+    "whatsapp": "18765068383",
+    # Google tag ID from Google Ads. Leave empty to leave the tag off the site.
+    "google_tag": "AW-18497094392",
+}
+
+# Google Ads conversion labels (the part after the "/" in a conversion
+# action's send_to value). A lead type is only reported once its label is set.
+CONVERSIONS = {
+    "call": "",
+    "whatsapp": "",
+    "form": "",
 }
 
 PLACEHOLDERS = {
@@ -64,6 +78,14 @@ PAGES = [
         "description": "How Smart Building Finishes approaches building automation and security projects.",
     },
     {
+        # Landing page for adverts; not listed in the menu.
+        "file": "cctv.html",
+        "source": "cctv.html",
+        "nav": None,
+        "title": "CCTV Installation Jamaica | Smart Building Finishes",
+        "description": "Security camera sales, installation, repairs and maintenance for homes and businesses across Jamaica. Free site visit in Kingston and urban St. Andrew and warranty on every install.",
+    },
+    {
         "file": "contact.html",
         "source": "contact.html",
         "nav": "Contact",
@@ -88,6 +110,22 @@ def brand():
     return f'{MARK}<span class="brand-name">Smart Building <b>Finishes</b></span>'
 
 
+def google_tag():
+    tag = SITE["google_tag"]
+    if not tag:
+        return ""
+    labels = {kind: f"{tag}/{label}" for kind, label in CONVERSIONS.items() if label}
+    return f"""  <script async src="https://www.googletagmanager.com/gtag/js?id={tag}"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){{dataLayer.push(arguments);}}
+    gtag('js', new Date());
+    gtag('config', '{tag}');
+    window.conversionLabels = {json.dumps(labels)};
+  </script>
+"""
+
+
 def tokens():
     values = {key: escape(value) for key, value in SITE.items()}
     values["phone_href"] = "tel:" + SITE["phone_dial"]
@@ -95,6 +133,10 @@ def tokens():
     values["address_item"] = f"<li>{address}</li>" if address else ""
     values["address_row"] = f"<dt>Address</dt><dd>{address}</dd>" if address else ""
     values["area_label"] = "Serving the entire island"
+    values["whatsapp_button"] = (
+        f'<a class="btn btn-ghost" href="https://wa.me/{values["whatsapp"]}">WhatsApp us</a>'
+        if values["whatsapp"] else ""
+    )
     values["year"] = str(date.today().year)
     return values
 
@@ -107,12 +149,13 @@ def render(page):
             current=' aria-current="page"' if p is page else "",
         )
         for p in PAGES
+        if p["nav"]
     )
     body = (ROOT / "pages" / page["source"]).read_text(encoding="utf-8")
     html = f"""<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
+{google_tag()}  <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{escape(page["title"])}</title>
   <meta name="description" content="{escape(page["description"])}">
